@@ -654,19 +654,6 @@
     throwCyclicInit(staticName) {
       throw A.wrapException(new A._CyclicInitializationError(staticName));
     },
-    convertMainArgumentList(args) {
-      var i,
-        result = A._setArrayType([], type$.JSArray_String);
-      if (args == null)
-        return result;
-      if (Array.isArray(args)) {
-        for (i = 0; i < args.length; ++i)
-          result.push(String(args[i]));
-        return result;
-      }
-      result.push(String(args));
-      return result;
-    },
     createRecordTypePredicate(shape, fieldRtis) {
       var $length = fieldRtis.length,
         $function = init.rttc["" + $length + ";" + shape];
@@ -2280,6 +2267,9 @@
       t1 = buffer._contents;
       return t1.charCodeAt(0) == 0 ? t1 : t1;
     },
+    print(object) {
+      A.printString(A.S(object));
+    },
     Error: function Error() {
     },
     AssertionError: function AssertionError(t0) {
@@ -2340,8 +2330,10 @@
     throwLateFieldADI(fieldName) {
       A.throwExpressionWithWrapper(new A.LateError("Field '" + fieldName + "' has been assigned during initialization."), new Error());
     },
-    main($arguments) {
-      A.printString("Hello world!");
+    main() {
+      A.print("LOL");
+      A.print(4.1);
+      A.print(true);
     }
   },
   B = {};
@@ -2695,9 +2687,7 @@
     }
   })(function(currentScript) {
     init.currentScript = currentScript;
-    var callMain = function(args) {
-      return A.main(A.convertMainArgumentList(args));
-    };
+    var callMain = A.main;
     if (typeof dartMainRunner === "function") {
       dartMainRunner(callMain, []);
     } else {
